@@ -7,6 +7,7 @@
 
 
 #ifndef __SETUP_H__
+	#include <avr/io.h>
 #define __SETUP_H__
 
 
@@ -21,6 +22,9 @@ private:
 public:
 	Setup();
 	~Setup();
+	void timer0Setup();
+
+
 protected:
 private:
 	Setup( const Setup &c );
