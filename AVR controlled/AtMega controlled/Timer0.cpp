@@ -6,19 +6,19 @@
 */
 
 
-#include "Setup.h"
+#include "Timer0.h"
 
 // default constructor
-Setup::Setup()
+Timer0::Timer0()
 {
 } //Setup
 
 // default destructor
-Setup::~Setup()
+Timer0::~Timer0()
 {
 } //~Setup
 
-void Setup::timer0Setup()
+void Timer0::timer0Setup()
 {
 		// default speed at 1Mhz
 

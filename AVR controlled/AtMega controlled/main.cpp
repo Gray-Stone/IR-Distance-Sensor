@@ -8,23 +8,25 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
+#include "Timer0.h"
 
-volatile char itrCount ;
-char oneSec = 249;
 
-void timer0Setup()
-{
-		// default speed at 1Mhz
+volatile unsigned char itrCount ;
+unsigned char oneSec = 249;
 
-		TCCR0A = 0x02; // set WGM to mode 2 0b010 for CTC mode counter clear when TCNT0 match OCR0A
-		
-		TIMSK0 = 0x02; // enable interrupt on OCR0A
-		// 16Mhz / 8 fuse bit  = 2Mhz. 
-		TCCR0B = 3 ; // 2Mhz / 64 = 31250Hz and start timer
-		//15625 /125 = 250
-		OCR0A =	124 ;	// the value used to compare with timer.
-		// when itrCounter reach 125, it means one second has passed 
-}
+	//void timer0Setup()
+	//{
+			//// default speed at 1Mhz
+	//
+			//TCCR0A = 0x02; // set WGM to mode 2 0b010 for CTC mode counter clear when TCNT0 match OCR0A
+			//
+			//TIMSK0 = 0x02; // enable interrupt on OCR0A
+			//// 16Mhz / 8 fuse bit  = 2Mhz. 
+			//TCCR0B = 3 ; // 2Mhz / 64 = 31250Hz and start timer
+			////15625 /125 = 250
+			//OCR0A =	124 ;	// the value used to compare with timer.
+			//// when itrCounter reach 125, it means one second has passed 
+	//}
 
 
 // done on atmega328p as arduino chip
@@ -39,8 +41,13 @@ int main(void)
 		
 	PORTB = 1 << PORTB5;
 	// setup timer0 
-	timer0Setup();
+	//timer0Setup();
 	
+	Timer0 t0;
+	t0.timer0Setup();
+	// TODO somehow put timing stuff into object?
+		
+		
 		
     while (1) 
     {
@@ -59,7 +66,7 @@ int main(void)
 
 
 
-
+// TODO find a way to better put ISRs 
 ISR(TIMER0_COMPA_vect) // interrupt occur when OCR0A match 
 {
 	cli(); // disable interrupt 

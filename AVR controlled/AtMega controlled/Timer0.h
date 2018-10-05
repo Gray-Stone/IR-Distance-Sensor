@@ -11,24 +11,25 @@
 #define __SETUP_H__
 
 
-class Setup
+class Timer0
 {
+	
 //variables
 public:
-protected:
-private:
+
+	volatile unsigned char *itrCount ;
+	
+
 
 //functions
 public:
-	Setup();
-	~Setup();
+
+	Timer0( );
+	~Timer0();
+	
 	void timer0Setup();
+	
 
-
-protected:
-private:
-	Setup( const Setup &c );
-	Setup& operator=( const Setup &c );
 
 }; //Setup
 
