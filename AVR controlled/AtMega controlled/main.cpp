@@ -12,25 +12,33 @@
 
 
 volatile unsigned char itrCount ;
-unsigned char oneSec = 249;
-
 
 
 // done on atmega328p as arduino chip
 int main(void)
 {
-	itrCount =0;
+	itrCount =0; // itrCount will increment every peroid
 	
-	//sei();// enable  interrupt
+	sei();// enable  interrupt
 
-	
- timer0FastPWMSetup();
+ 
+	timer1FastPWMSetup();
 	// TODO somehow put timing stuff into object?
-		
+	
+	unsigned int topMax = 400;
+	unsigned int topMin = 160;  
+	
+	unsigned int top = topMin ;
 		
     while (1) 
     {
-		itrCount+=1;
+		if (itrCount > 5 )
+		{
+			itrCount-=5;
+			top+=50 ;		// change the period
+			if (top > topMax) top = topMin; 
+			timer1SetOCR1ATop(top);
+		}
     }
 }
 
@@ -46,3 +54,9 @@ int main(void)
 //}
 
 
+ISR(TIMER1_COMPA_vect) // interrupt occur when OCR0A match
+{
+	cli(); // disable interrupt
+	++itrCount;
+	sei();// enable  interrupt
+}

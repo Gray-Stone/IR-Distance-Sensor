@@ -16,6 +16,12 @@ void timer0CTCSetup() ;
 void timer0FastPWMSetup(unsigned char top);
 void timer0FastPWMSetup();
 
+void timer1FastPWMSetup(unsigned int top);
+void timer1FastPWMSetup();
+void timer1SetOCR1ATop(unsigned int top);
+
+
+
 
 
 
