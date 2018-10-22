@@ -2,7 +2,9 @@
 TSSP4056 used for receiving 
 Center Frequency at 56 KHz. 
 
-Assumed to use Atmega328P (arduino Chip)
+Assumed to use Atmega328P (arduino Chip) Seems to be using 16MHz clock, should be 8MHz 
+
+
 If Design the operation from 50Khz to 20Khz . 
 
 	Since serial seems to have their own timer (SPI or UART) 
