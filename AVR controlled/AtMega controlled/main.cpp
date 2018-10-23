@@ -8,71 +8,55 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
-#include "Timer0.h"
+#include "TimerSetup.h"
 
 
 volatile unsigned char itrCount ;
-unsigned char oneSec = 249;
-
-	//void timer0Setup()
-	//{
-			//// default speed at 1Mhz
-	//
-			//TCCR0A = 0x02; // set WGM to mode 2 0b010 for CTC mode counter clear when TCNT0 match OCR0A
-			//
-			//TIMSK0 = 0x02; // enable interrupt on OCR0A
-			//// 16Mhz / 8 fuse bit  = 2Mhz. 
-			//TCCR0B = 3 ; // 2Mhz / 64 = 31250Hz and start timer
-			////15625 /125 = 250
-			//OCR0A =	124 ;	// the value used to compare with timer.
-			//// when itrCounter reach 125, it means one second has passed 
-	//}
 
 
 // done on atmega328p as arduino chip
 int main(void)
 {
-	itrCount =0;
+	itrCount =0; // itrCount will increment every peroid
 	
 	sei();// enable  interrupt
 
-	DDRB = 0xff; // PB5 is digital 13
-	PORTB = 0x00;
-		
-	PORTB = 1 << PORTB5;
-	// setup timer0 
-	//timer0Setup();
-	
-	Timer0 t0;
-	t0.timer0Setup();
+ 
+	timer1FastPWMSetup();
 	// TODO somehow put timing stuff into object?
-		
-		
+	
+	unsigned int topMax = 400;
+	unsigned int topMin = 160;  
+	
+	unsigned int top = topMin ;
 		
     while (1) 
     {
-		if(itrCount > oneSec)
+		if (itrCount > 5 )
 		{
-			itrCount-=oneSec;
-			PORTB = 0x00;
-		}
-		
-		if(itrCount == oneSec/2)
-		{
-				PORTB = 1<<PORTB5;
+			itrCount-=5;
+			top+=50 ;		// change the period
+			if (top > topMax) top = topMin; 
+			timer1SetOCR1ATop(top);
 		}
     }
 }
 
 
 
-// TODO find a way to better put ISRs 
-ISR(TIMER0_COMPA_vect) // interrupt occur when OCR0A match 
+//// TODO find a way to better put ISRs 
+//ISR(TIMER0_COMPA_vect) // interrupt occur when OCR0A match 
+//{
+	//cli(); // disable interrupt 
+		//++itrCount;
+	//sei();// enable  interrupt
+//
+//}
+
+
+ISR(TIMER1_COMPA_vect) // interrupt occur when OCR0A match
 {
-	cli(); // disable interrupt 
-		++itrCount;
+	cli(); // disable interrupt
+	++itrCount;
 	sei();// enable  interrupt
-
 }
-
-

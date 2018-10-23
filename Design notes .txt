@@ -1,0 +1,31 @@
+
+TSSP4056 used for receiving 
+Center Frequency at 56 KHz. 
+
+Assumed to use Atmega328P (arduino Chip) Seems to be using 16MHz clock, should be 8MHz 
+
+
+If Design the operation from 50Khz to 20Khz . 
+
+	Since serial seems to have their own timer (SPI or UART) 
+	using timer1 is preferred for more precision in frequency. 
+
+	8Mhz oscillator speed, with fuse divide it by 8 
+
+		1MHz clock speed. 
+
+		1MHz / 50KHz = 20 
+		1MHz / 20KHz = 50
+
+		In Fast PWM mode, this means the top is 20 to 50. 
+		with a various of 30, which is a little less than 5 bit 
+
+
+	if 8MHz without fuse divide it by 8 // these need 16 bit timer. 8 bit cap at 255
+		8MHz / 50 = 160 
+		8MHz / 20 = 400 
+		the top could is 160 to 400
+		various for about 240, bit less than 8bit. 
+
+
+
