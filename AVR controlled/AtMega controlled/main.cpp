@@ -21,26 +21,31 @@ int main(void)
 	sei();// enable  interrupt
 
  
-	timer1FastPWMSetup(170*2);
+	timer1FastPWMSetup(300*2);
 	// TODO somehow put timing stuff into object?
 	
 	unsigned int topMax = 400;
 	unsigned int topMin = 160;
 	
-	unsigned int sectionLength = 100 ;
+	unsigned int sectionLength = 50 ;
 	
 	unsigned int top = topMin ;
 		
     while (1) 
     {
-		//if (itrCount ==  sectionLength/2 )
-		//{
+		if (itrCount ==  sectionLength/2 )
+		{
+			//PORTB &= ( ~1<<PORTB2 ) ;
+		TCCR1A &= ( ~ ( 0x3 << COM1B0 ) ) ;	// Clear OC1B output 
+
 			//DDRB &= ( ~ 1<<PORTB2 )  ;
-		//}
+		}
 		if (itrCount > sectionLength )
 		{
 			itrCount -= sectionLength;
-			DDRB |= 1 << PORTB2 ;
+			//DDRB |= 1 << PORTB2 ;
+		TCCR1A |= ( 0x2 << COM1B0 ) ;	// set OC1B non inverting output
+
 		}
     }
 }
