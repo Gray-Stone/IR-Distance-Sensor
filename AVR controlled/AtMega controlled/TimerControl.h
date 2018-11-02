@@ -6,8 +6,8 @@
 */
 
 
-#ifndef __TIMERSETUP_H__
-#define __TIMERSETUP_H__
+#ifndef __TIMERCONTROL_H__
+#define __TIMERCONTROL_H__
 
 #include <avr/io.h>
 
@@ -18,11 +18,12 @@ void timer0FastPWMSetup();
 
 void timer1FastPWMSetup(unsigned int top);
 void timer1FastPWMSetup();
-void timer1SetOCR1ATop(unsigned int top);
+void timer1OCR1A_SetTop(unsigned int top);
+void timer1OC1B_switch (char flag);
 
 
 
 
 
 
-#endif //__TIMERSETUP_H__
+#endif //__TIMERCONTROL_H__

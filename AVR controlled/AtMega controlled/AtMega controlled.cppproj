@@ -293,10 +293,16 @@
     <Compile Include="main.cpp">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="TimerSetup.cpp">
+    <Compile Include="SPIcontrol.cpp">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="TimerSetup.h">
+    <Compile Include="SPIcontrol.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="TimerControl.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="TimerControl.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

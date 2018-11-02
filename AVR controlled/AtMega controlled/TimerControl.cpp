@@ -6,7 +6,7 @@
 */
 
 
-#include "TimerSetup.h"
+#include "TimerControl.h"
 
 void timer0CTCSetup()
 {
@@ -53,15 +53,19 @@ void timer1FastPWMSetup(unsigned int top)
 	// COMnx[1:0] = 0x2 for non inverting output
 	// OC1B is PB2 is digital 10 on Arduino 
 	// enable OC1A interrupt, will trigger at top 
-	
-	
+
 	DDRB = 1<< PORTB2 ;
-	
 	
 	TCCR1A = ( 0x2 << COM1B0 ) + 0x3 ;		// setup OCR1B as noninverting output, set WGM11,WGM10 
 	TCCR1B = (0b11 << WGM12 )  + 1	;		// setup WGM13 WGM12, turn on clock with no prescaler
 	
-	OCR1A = top ;	// 8Mhz / 50kHz = 160 ; 8Mhz / 20Khz = 400
+	OCR1A = top ;
+	// 16Mhz /
+	// 1000 = 16Khz
+	// 888.88 = 18Khz
+	// 800 = 20Khz
+	// 533.33 = 30Khz
+	//320 = 50Khz
 	OCR1B = OCR1A /2 ;
 	TIMSK1 = ( 1<<OCIE1A) ;	// OCIE1A enable compare a match interrupt
 
@@ -72,8 +76,21 @@ void timer1FastPWMSetup()
 	timer1FastPWMSetup(400);
 }
 
-void timer1SetOCR1ATop(unsigned int top)
+void timer1OCR1A_SetTop(unsigned int top)
 {
 	OCR1A = top ;	// 8Mhz / 50kHz = 160 ; 8Mhz / 20Khz = 400
 	OCR1B = OCR1A /2 ;
+}
+
+// turn on or off the OC1B output. 0 for off, 1 for on
+void timer1OC1B_switch (char flag)
+{
+	if (flag)
+	{
+		TCCR1A |= ( 0x2 << COM1B0 ) ;	// turn on OC1B non inverting output
+	}
+	else 
+	{
+		TCCR1A &= ( ~ ( 0x3 << COM1B0 ) ) ;	// turn off OC1B output
+	}
 }
